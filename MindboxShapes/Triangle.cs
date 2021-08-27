@@ -37,7 +37,7 @@ namespace MindboxShapes
         {
             var sides = new[] { Side1, Side2, Side3, };
             var sortedSides = sides.OrderByDescending(side => side).ToArray();
-            return Math.Abs(sortedSides[0] * sortedSides[0] - sortedSides[1] * sortedSides[1] - sortedSides[2] * sortedSides[2]) < 1e-6; ;
+            return Math.Abs(sortedSides[0] * sortedSides[0] - sortedSides[1] * sortedSides[1] - sortedSides[2] * sortedSides[2]) < 1e-2; ;
         }
 
         public override void ReportToConsole()
