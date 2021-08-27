@@ -1,0 +1,21 @@
+category_product //pivot table
+---------------
+id_category
+id_product
+
+product
+---------------
+id_product
+name
+
+category
+---------------
+id_category
+name
+
+SELECT p.name, c.name
+FROM product as p
+LEFT JOIN category_product as cp
+  ON cp.id_product = p.id_product
+LEFT JOIN category as c
+  ON cp.id_category = c.id_category
