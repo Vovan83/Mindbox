@@ -40,7 +40,7 @@ namespace MindboxTest
         public void ConsoleSetTest() 
         {
             IConsoleInteractions shapeInteractions = new Circle();
-            var shape = shapeInteractions.SetFromConsole(new StringReader("12\r\n"), new StringWriter());
+            var shape = shapeInteractions.SetFromConsole(new StringReader($"12{Environment.NewLine}"), new StringWriter());
             Assert.IsInstanceOf(typeof(Circle), shape);
             Assert.AreEqual(((Circle)shape).Radius, 12.0, 1e-5);
         }
@@ -52,7 +52,7 @@ namespace MindboxTest
             var shape = new Circle(1.9544100);
             shape.ReportToConsole(new StringWriter(sb));
             var _out = sb.ToString();
-            Assert.AreEqual("The area of the circle is equal to: 12.00000\r\n", _out);
+            Assert.AreEqual($"The area of the circle is equal to: 12.00000{Environment.NewLine}", _out);
         }
     }
 }
