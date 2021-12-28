@@ -54,7 +54,7 @@ namespace MindboxTest
         public void ConsoleSetTest()
         {
             IConsoleInteractions shapeInteractions = new Triangle();
-            var shape = shapeInteractions.SetFromConsole(new StringReader("12\r\n12\r\n12\r\n"), new StringWriter());
+            var shape = shapeInteractions.SetFromConsole(new StringReader($"12{Environment.NewLine}12{Environment.NewLine}12{Environment.NewLine}"), new StringWriter());
             Assert.IsInstanceOf(typeof(Triangle), shape);
             Assert.AreEqual(((Triangle)shape).Side1, 12.0, 1e-5);
             Assert.AreEqual(((Triangle)shape).Side2, 12.0, 1e-5);
@@ -68,9 +68,7 @@ namespace MindboxTest
             var shape = new Triangle(1, 1, 1.41421356237);
             shape.ReportToConsole(new StringWriter(sb));
             var _out = sb.ToString();
-            Assert.AreEqual(@"The area of the triangle is equal to: 0.50000
-This triangle is rectangular.
-", _out);
+            Assert.AreEqual($"The area of the triangle is equal to: 0.50000{Environment.NewLine}This triangle is rectangular.{Environment.NewLine}", _out);
         }
     }
 }
