@@ -1,9 +1,7 @@
 ﻿namespace MindboxShapes
 {
-    public interface IShape 
+    public interface IShape : IConsoleInteractions
     {
-        void SetFromConsole();
         double GetSquare();
-        void ReportToConsole();
     }
 }

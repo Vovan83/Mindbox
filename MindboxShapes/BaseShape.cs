@@ -1,10 +1,14 @@
-﻿namespace MindboxShapes
+﻿using System.IO;
+
+namespace MindboxShapes
 {
     public abstract class BaseShape : IShape
     {
-        public abstract void SetFromConsole();
+        public abstract BaseShape SetFromConsole(TextReader textReader, TextWriter textWriter);
         public abstract double GetSquare();
-        public abstract void ReportToConsole();
+        public abstract void ReportToConsole(TextWriter textWriter);
+
+        public virtual ShapeType ShapeType => ShapeType.None;
 
         //TODO common logic
     }

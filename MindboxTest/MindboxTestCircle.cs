@@ -1,6 +1,8 @@
 using MindboxShapes;
 using NUnit.Framework;
 using System;
+using System.IO;
+using System.Text;
 
 namespace MindboxTest
 {
@@ -24,6 +26,33 @@ namespace MindboxTest
             var square = shape.GetSquare();
 
             Assert.AreEqual(expectedSquare, square, 1e-6);
+        }
+
+        [Test]
+        public void FactoryCreateTest() 
+        {
+            IShapeFactory shapeFactory = new SimpleShapeFactory();
+            IConsoleInteractions shapeInteractions = shapeFactory.CreateShapeFromName("circle");
+            Assert.IsInstanceOf(typeof(Circle), shapeInteractions);
+        }
+
+        [Test]
+        public void ConsoleSetTest() 
+        {
+            IConsoleInteractions shapeInteractions = new Circle();
+            var shape = shapeInteractions.SetFromConsole(new StringReader("12\r\n"), new StringWriter());
+            Assert.IsInstanceOf(typeof(Circle), shape);
+            Assert.AreEqual(((Circle)shape).Radius, 12.0, 1e-5);
+        }
+
+        [Test]
+        public void ConsoleReportTest()
+        {
+            var sb = new StringBuilder();
+            var shape = new Circle(1.9544100);
+            shape.ReportToConsole(new StringWriter(sb));
+            var _out = sb.ToString();
+            Assert.AreEqual("The area of the circle is equal to: 12.00000\r\n", _out);
         }
     }
 }
