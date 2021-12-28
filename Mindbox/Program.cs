@@ -17,6 +17,10 @@ while (true)
                  .ReportToConsole(Console.Out);
         }
     }
+    catch (KeyNotFoundException ex)
+    {
+        Console.WriteLine($"{classShape} не найден");
+    }
     catch (KeyNotFoundException)
     {
         Console.WriteLine($"{classShape} не найден");
