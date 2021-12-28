@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace MindboxShapes
@@ -10,7 +11,6 @@ namespace MindboxShapes
         {
 
         }
-
         public Triangle(double side1, double side2, double side3)
         {
             if (side1 < 0 || side2 < 0 || side3 < 0)
@@ -23,9 +23,15 @@ namespace MindboxShapes
             Side3 = side3;
         }
 
-        public double Side1 { get; private set; }
-        public double Side2 { get; private set; }
-        public double Side3 { get; private set; }
+        public Triangle(double[] sides):this(sides[0], sides[1], sides[2])
+        {
+        }
+
+        public override ShapeType ShapeType => ShapeType.Triangle;
+
+        public readonly double Side1;
+        public readonly double Side2;
+        public readonly double Side3;
 
         public override double GetSquare()
         {
@@ -40,18 +46,18 @@ namespace MindboxShapes
             return Math.Abs(sortedSides[0] * sortedSides[0] - sortedSides[1] * sortedSides[1] - sortedSides[2] * sortedSides[2]) < 1e-2; ;
         }
 
-        public override void ReportToConsole()
+        public override void ReportToConsole(TextWriter textWriter)
         {
-            Console.WriteLine("The area of the triangle is equal to: {0:f5}", GetSquare());
-            Console.WriteLine("This triangle {0} rectangular.", IsRectangular() ? "is" : "is not");
+            textWriter.WriteLine("The area of the triangle is equal to: {0:f5}", GetSquare());
+            textWriter.WriteLine("This triangle {0} rectangular.", IsRectangular() ? "is" : "is not");
         }
 
         readonly string[] sideLabel = new string[] { "A", "B", "C" };
 
-        double ReadSideFromConsole(int i)
+        double ReadSideFromConsole(int i, TextReader textReader, TextWriter textWriter)
         {
-            Console.Write("Enter the side {0}, decimal separator (.): ", sideLabel[i]);
-            var stringSide = Console.ReadLine();
+            textWriter.Write("Enter the side {0}, decimal separator (.): ", sideLabel[i]);
+            var stringSide = textReader.ReadLine();
             var result = double.TryParse(stringSide, out double side);
             if (!result)
             {
@@ -60,20 +66,18 @@ namespace MindboxShapes
             return side;
         }
 
-        public override void SetFromConsole()
+        public override BaseShape SetFromConsole(TextReader textReader, TextWriter textWriter)
         {
-            var sides = ReadSidesFromConsole();
-            Side1 = sides[0];
-            Side2 = sides[1];
-            Side3 = sides[2];
+            var sides = ReadSidesFromConsole(textReader, textWriter);
+            return new Triangle(sides);
         }
 
-        private double[] ReadSidesFromConsole()
+        private double[] ReadSidesFromConsole(TextReader textReader, TextWriter textWriter)
         {
             var result = new double[3];
             for (int i = 0; i < 3; i++)
             {
-                result[i] = ReadSideFromConsole(i);
+                result[i] = ReadSideFromConsole(i, textReader, textWriter);
             }
             return result;
         }

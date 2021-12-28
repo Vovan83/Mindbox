@@ -1,7 +1,8 @@
 ﻿using MindboxShapes;
 using NUnit.Framework;
 using System;
-
+using System.IO;
+using System.Text;
 
 namespace MindboxTest
 {
@@ -39,6 +40,37 @@ namespace MindboxTest
             var isRectangular = shape.IsRectangular();
 
             Assert.AreEqual(isRectangularExpected, isRectangular);
+        }
+
+        [Test]
+        public void FactoryCreateTest()
+        {
+            IShapeFactory shapeFactory = new SimpleShapeFactory();
+            IConsoleInteractions shapeInteractions = shapeFactory.CreateShapeFromName("triangle");
+            Assert.IsInstanceOf(typeof(Triangle), shapeInteractions);
+        }
+
+        [Test]
+        public void ConsoleSetTest()
+        {
+            IConsoleInteractions shapeInteractions = new Triangle();
+            var shape = shapeInteractions.SetFromConsole(new StringReader("12\r\n12\r\n12\r\n"), new StringWriter());
+            Assert.IsInstanceOf(typeof(Triangle), shape);
+            Assert.AreEqual(((Triangle)shape).Side1, 12.0, 1e-5);
+            Assert.AreEqual(((Triangle)shape).Side2, 12.0, 1e-5);
+            Assert.AreEqual(((Triangle)shape).Side3, 12.0, 1e-5);
+        }
+
+        [Test]
+        public void ConsoleReportTest()
+        {
+            var sb = new StringBuilder();
+            var shape = new Triangle(1, 1, 1.41421356237);
+            shape.ReportToConsole(new StringWriter(sb));
+            var _out = sb.ToString();
+            Assert.AreEqual(@"The area of the triangle is equal to: 0.50000
+This triangle is rectangular.
+", _out);
         }
     }
 }
